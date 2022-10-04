@@ -1,3 +1,4 @@
+import 'package:bottom_nav_screens/modules/bottom_nav_screens/new_tasks/remainder_cubit/task_alarm_notification_helper.dart';
 import 'package:bottom_nav_screens/shared/cubit/app_cubit.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,7 @@ buildDefaultNewTaskWidget(Map tasks, BuildContext context, String status,
     ),
   );
 }
-
+LocalNotificationService service;
 buildDefaultTasksScreen(
     {List<Map> listOfTasks, String status,Color taskBackgroundColor=Colors.grey}) {
 
@@ -226,6 +227,7 @@ buildDefaultTasksScreen(
                 message:
                     "Task (${listOfTasks[index]["title"].length > 10 ? listOfTasks[index]["title"].toString().substring(0, 10) + "...." : listOfTasks[index]["title"]}) Deleted Successfully");
             AppCubit.get(context).deleteFromDB(id: listOfTasks[index]['id']);
+            service.cancelScheduledNotification(AppCubit.get(context).notificationsId["id"]);
           },
         ),
         itemCount: listOfTasks.length,

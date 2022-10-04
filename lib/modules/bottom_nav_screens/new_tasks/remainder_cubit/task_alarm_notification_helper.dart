@@ -83,6 +83,10 @@ class LocalNotificationService {
         androidAllowWhileIdle: true);
   }
 
+  cancelScheduledNotification(int id) async {
+    await _localNotificationService.cancel(id);
+  }
+
   Future<void> showNotificationWithPayload({
     @required int id,
     @required String title,

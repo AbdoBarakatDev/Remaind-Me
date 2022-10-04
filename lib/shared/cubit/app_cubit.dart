@@ -76,6 +76,7 @@ class AppCubit extends Cubit<AppStates> {
                 .rawInsert(
                     "INSERT INTO $tableName (title ,date ,time ,status) VALUES ('$title','$date','$time','new task') ")
                 .then((value) => {
+                  print("value of insert :  $value"),
                       // print(
                       //     "Row $value successfully added ==> title: $title date: $date time: $time"),
                       emit(AppInsertInDataBaseStates())
@@ -179,16 +180,20 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppGetTaskTimeDifferenceStates());
   }
 
-  int getRandomId() {
+  Map<String, int> notificationsId;
+
+  int getRandomId({String taskId}) {
     var rng = Random();
     int randomInt = 0;
     for (var i = 0; i < 10; i++) {
       {
         randomInt = rng.nextInt(100);
       }
+      if(taskId!=null) notificationsId.addAll({taskId: randomInt});
+      return randomInt;
     }
-    return randomInt;
   }
+
   void launchProfile() async {
     Uri uri = Uri.parse('https://github.com/AbdoBarakatDev');
     if (await canLaunchUrl(uri)) {
@@ -202,5 +207,4 @@ class AppCubit extends Cubit<AppStates> {
       throw 'Could not launch $uri';
     }
   }
-
 }
